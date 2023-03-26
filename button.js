@@ -1,5 +1,10 @@
 const button = document.getElementById('button');
+const sexyToggle = document.getElementById('sexy-toggle');
+const censorToggle = document.getElementById('censor-toggle');
+const getNumdetections = document.getElementById('numDetections');
 const eye = document.querySelector("#button i");
+let sexyIsChecked= false;
+let censorIsChecked= false;
 
 button.addEventListener('click', (event) => {
   let clickedButton;
@@ -34,4 +39,34 @@ button.addEventListener('click', (event) => {
     clickedButton.parentNode.classList.toggle('click-inner-animation');
     clickedButton.parentNode.parentNode.classList.toggle('click-outer-animation');
   }, 700);
+
+ 
 });
+
+sexyToggle.addEventListener('change', function(e) {
+  if (this.checked) {
+    if(censorIsChecked) {
+      censorToggle.checked = false;
+      censorIsChecked = false;
+    }
+    sexyIsChecked = true;
+  } 
+});
+
+censorToggle.addEventListener('change', function(e) {
+  if (this.checked) {
+    if(sexyIsChecked) {
+      sexyToggle.checked = false;
+      sexyIsChecked = false;
+    }
+    censorIsChecked = true;
+  } 
+});
+
+chrome.runtime.onMessage.addListener(function(request, sender, response) {
+  if(request.msg === "send") {
+    getNumdetections.innerText = request.data;
+  }
+}); 
+
+

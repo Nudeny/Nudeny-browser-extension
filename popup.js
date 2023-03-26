@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 var isOn = false;
 chrome.runtime.sendMessage({msg: "btnstatus", status: "off"});
-    
+
 const mainButton = document.getElementById("main");
 const images = document.querySelectorAll("img");
 mainButton.addEventListener("click", function() {
@@ -18,3 +18,4 @@ mainButton.addEventListener("click", function() {
     }
 });
 });
+
