@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Urbanist&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  --disabled-color: #f37272;
+  --enabled-color: #57F4D8;
+}
+
+body {
+  background: linear-gradient(180deg, #FFFFFF 0%, #7BFFE8 100%);
+  font-family: sans-serif;
+  height: 100%;
+  width: 300px;
+  height: 460px;
+}
+
+body.disabled {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FA8282 100%);
+}
+
+#button-container {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#button-outer {
+  width: 205px;
+  height: 205px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(243, 114, 114, 0.4);
+  transition: all 800ms ease-in-out;
+}
+
+#button-inner {
+  width: 174px;
+  height: 174px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(243, 114, 114, 0.5);
+  transition: all 550ms ease-in-out;
+}
+
+#button {
+  width: 133px;
+  height: 133px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--disabled-color);
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+}
+
+#button i {
+  font-size: 4.5rem;
+  color: white;
+}
+
+.button-enabled {
+  background-color: var(--enabled-color) !important;
+}
+
+.button-enabled-inner {
+  background-color: rgba(87, 245, 216, 0.5) !important;
+}
+
+.button-enabled-outer {
+  background-color: rgba(87, 245, 216, 0.4) !important;
+}
+
+.click-button-animation {
+  animation: expand 200ms ease-in-out;
+}
+
+.click-inner-animation {
+  animation: expand 450ms ease-in-out;
+}
+
+.click-outer-animation {
+  animation: expand 700ms ease-in-out;
+}
+
+#information-container {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  box-sizing: border-box;
+}
+
+#details-container {
+  width: 172px;
+  height: 159px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: -1px 8px 20px 1px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: -1px 8px 20px 1px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: -1px 8px 20px 1px rgba(0, 0, 0, 0.23);
+  border-radius: 15px;
+  margin-right: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+#details-container h2 {
+  font-family: 'Alata', sans-serif;
+  font-size: 16px;
+  color: #474747;
+}
+
+#details-container h1 {
+  font-family: 'Alata', sans-serif;
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: #0E0E0E;
+}
+
+#details-container p {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 16px;
+  color: #474747;
+}
+
+#settings-container {
+  width: 95px;
+  height: 159px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: -1px 8px 20px 1px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: -1px 8px 20px 1px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: -1px 8px 20px 1px rgba(0, 0, 0, 0.23);
+  border-radius: 15px;
+  padding-top: 20px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+#settings-container p {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 16px;
+  color: #0E0E0E;
+  margin: 0px;
+}
+
+#settings-container p i {
+  font-size: .7rem;
+  color: #474747;
+}
+
+#settings-container p:hover:before {
+  opacity: 1;
+}
+
+#settings-container p:before {
+  content: attr(data-guide);
+  background-color: rgba(0, 0, 0, 0.884);
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1rem;
+  color: white;
+  padding: 10px;
+  position: absolute;
+  width: 170px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: all 250ms ease-in-out;
+}
+
+#settings-container p:first-of-type:before {
+  left: -110px !important;
+  top: -70px !important;
+}
+
+#settings-container p:last-of-type:before {
+  left: -160px !important;
+  top: -105px !important;
+}
+
+.form-check.form-switch {
+  margin-left: -3px;
+  margin-bottom: 20px;
+}
+
+.form-switch .form-check-input {
+  width: 3.2rem;
+}
+
+.form-check-input:checked {
+  background-color: #48ce70;
+  border-color: #48ce70;
+}
+
+#settings-container p:nth-child(2) {
+  margin-top: 1000px;
+}
+
+
+@keyframes expand {
+  0% {
+    transform: scale(1.025);
+  }
+
+  25% {
+    transform: scale(1.05);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  75% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
