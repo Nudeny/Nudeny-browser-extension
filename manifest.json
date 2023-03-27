@@ -3,12 +3,19 @@
     "name" : "Nudeny",
     "description" : "Nudity image detection and classification",
     "version" : "1.0",
-    "permissions": ["tabs"],
-    "host_permissions": [
-                    "http://127.0.0.1:8000/*"],
     "action":{
+        "default_icon":{ 
+          "16": "icon16.png",
+          "32": "icon32.png",
+          "48": "icon48.png",
+          "128": "icon128.png"
+      },
+        "default_title": "Nudeny",
         "default_popup" : "popup.html"
     },
+    "permissions":["storage", "activeTab", "scripting","tabs"],
+    "host_permissions": [
+                    "http://127.0.0.1:8000/*"],
     "background": {
         "service_worker": "background.js"
     },
