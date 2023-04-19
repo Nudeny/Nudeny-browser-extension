@@ -5,13 +5,26 @@ const getNumdetections = document.getElementById('numDetections');
 const eye = document.querySelector("#button i");
 let isActive= false;
 
+
 // Retrieve button state from local storage
 chrome.storage.local.get('isActive', function (result) {
-  console.log(result.isActive);
   isActive = result.isActive
   if (result.isActive === true) {
-    
-    //set element updates here
+    button.classList.toggle('click-button-animation');
+    button.parentNode.classList.toggle('click-inner-animation');
+    button.parentNode.parentNode.classList.toggle('click-outer-animation');
+
+    // Color
+    button.classList.toggle("button-enabled");
+    button.parentNode.classList.toggle('button-enabled-inner');
+    button.parentNode.parentNode.classList.toggle('button-enabled-outer');
+
+    // Eye
+    eye.classList.toggle("bi-eye-slash");
+    eye.classList.toggle("bi-eye");
+  
+    //Body
+    document.body.classList.toggle('disabled');
   }
   else{
     // Clear 
@@ -20,7 +33,6 @@ chrome.storage.local.get('isActive', function (result) {
 });
 
 chrome.storage.local.get('isSexyToggled', function (result) {
-  console.log(result.isSexyToggled);
   sexyToggle.checked = result.isSexyToggled;
   if(sexyToggle.checked && censorToggle.checked){
     censorToggle.checked = false;
@@ -28,7 +40,6 @@ chrome.storage.local.get('isSexyToggled', function (result) {
 });
 
 chrome.storage.local.get('isCensorToggled', function (result) {
-  console.log(result.isCensorToggled);
   censorToggle.checked = result.isCensorToggled;
   if(censorToggle.checked && sexyToggle.checked){
     sexyToggle.checked = false;
@@ -37,7 +48,6 @@ chrome.storage.local.get('isCensorToggled', function (result) {
 
 // Button functionalities
 document.addEventListener('DOMContentLoaded', function () {
-
   button.addEventListener('click', (event) => {
     let clickedButton;
     isActive = !isActive;
@@ -90,6 +100,14 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     } 
     chrome.storage.local.set({ 'isSexyToggled': this.checked, 'isCensorToggled': censorToggle.checked});
+    if(isActive){
+      chrome.tabs.query({}, function(tabs) {
+        tabs.forEach(function(tab) {
+          chrome.tabs.reload(tab.id, { bypassCache: true });
+        });
+      });
+    }
+   
   });
 
   censorToggle.addEventListener('change', function(e) {
@@ -99,6 +117,14 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     } 
     chrome.storage.local.set({ 'isSexyToggled': sexyToggle.checked, 'isCensorToggled': this.checked});
+    if(isActive){
+      chrome.tabs.query({}, function(tabs) {
+        tabs.forEach(function(tab) {
+          chrome.tabs.reload(tab.id, { bypassCache: true });
+        });
+      });
+    }
+   
   });
 
   chrome.runtime.onMessage.addListener(function(request, sender, response) {
