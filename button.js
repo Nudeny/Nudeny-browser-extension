@@ -25,11 +25,11 @@ chrome.storage.local.get('isActive', function (result) {
   
     //Body
     document.body.classList.toggle('disabled');
+    chrome.storage.local.get('detections', function (result) {
+      getNumdetections.innerText = result.detections
+    });
   }
-  else{
-    // Clear 
-    chrome.storage.local.remove(["detections"]);
-  }
+  
 });
 
 chrome.storage.local.get('isSexyToggled', function (result) {
@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
           chrome.tabs.reload(tab.id, { bypassCache: true });
         });
       });
+      chrome.storage.local.set({ 'detections':0});
     }
     chrome.storage.local.set({ 'isActive': isActive });
 
@@ -106,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
           chrome.tabs.reload(tab.id, { bypassCache: true });
         });
       });
+      chrome.storage.local.set({ 'detections':0});
     }
    
   });
@@ -123,16 +125,19 @@ document.addEventListener('DOMContentLoaded', function () {
           chrome.tabs.reload(tab.id, { bypassCache: true });
         });
       });
+      chrome.storage.local.set({ 'detections':0});
     }
    
   });
 
   chrome.runtime.onMessage.addListener(function(request, sender, response) {
     if(request.msg === "send") {
-      chrome.storage.local.get("numDetections", () => {
-        getNumdetections.innerText = numDetections.data;
-      });
+        chrome.storage.local.get('detections', function (result) {
+          getNumdetections.innerText = result.detections
+        });
     }
   }); 
+
+ 
 
 });

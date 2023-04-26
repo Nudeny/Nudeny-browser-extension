@@ -5,6 +5,7 @@ chrome.runtime.onInstalled.addListener(function() {
       // Initialize variables here
       chrome.storage.local.set({ 'isActive': false});
       chrome.storage.local.set({ 'isSexyToggled': false, 'isCensorToggled': false});
+      chrome.storage.local.set({ 'detections':0});
     }
   });
 });
