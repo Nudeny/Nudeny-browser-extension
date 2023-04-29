@@ -38,32 +38,59 @@ function getNewImages() {
         if (images[i].getAttribute('data-src')) {
           images[i].setAttribute('data-src', "https://i.ibb.co/p1Qjj6Z/Desktop-4-1.jpg");
         }
-        chrome.runtime.sendMessage({msg: 'imageClassify', index: i, url: imageSrc}, function({data,index}){
-          console.log("URL: " + imageUrl[index] + " Class: " + data.Prediction[0].class);
-          if(sexyOption){
-            if (data.Prediction[0].class === "nude" || data.Prediction[0].class === "sexy") {
-              numDetections+=1;
-              chrome.storage.local.set({'detections': numDetections});
-              let fallbackImageUrl = "https://i.ibb.co/h2Fv4q0/Desktop-1.jpg";
-              images[index].src = fallbackImageUrl;
-              if (images[index].getAttribute('srcset')) {
-                images[index].setAttribute('srcset', fallbackImageUrl);
+        if(censorOption){
+            chrome.runtime.sendMessage({msg: 'imageCensor', indexCensor: i, url: imageSrc}, function({dataCensor,indexCensor}){
+             
+              if(dataCensor.Prediction[0].url !== ""){
+                numDetections+=1;
+                chrome.storage.local.set({'detections': numDetections});
+                images[indexCensor].src = dataCensor.Prediction[0].url;
+                if (images[indexCensor].getAttribute('srcset')) {
+                  images[indexCensor].setAttribute('srcset', dataCensor.Prediction[0].url);
+                }
+                if (images[indexCensor].getAttribute('data-src')) {
+                  images[indexCensor].setAttribute('data-src', dataCensor.Prediction[0].url);
+                }
+                chrome.runtime.sendMessage({msg: 'send'}, function(){
+                  chrome.storage.local.set({ 'detections': numDetections});
+                  
+                });
               }
-              if (images[index].getAttribute('data-src')) {
-                images[index].setAttribute('data-src', fallbackImageUrl);
-              }
-            }
-            else{
-              images[index].src = imageUrl[index];
-              if (images[index].getAttribute('srcset')) {
-                images[index].setAttribute('srcset',  imageUrl[index]);
-              }
-              if (images[index].getAttribute('data-src')) {
-                images[index].setAttribute('data-src', imageUrl[index]);
-              }
-            }
-          }
-          else if(censorOption){
+              else{
+                chrome.runtime.sendMessage({msg: 'imageClassify', index: indexCensor, url: imageSrc}, function({data,index}){
+                  if (data.Prediction[0].class === "nude"  || data.Prediction[0].class === "sexy") {
+                    numDetections+=1;
+                    chrome.storage.local.set({'detections': numDetections});
+                    let fallbackImageUrl = "https://i.ibb.co/h2Fv4q0/Desktop-1.jpg";
+                    images[index].src = fallbackImageUrl;
+                    if (images[index].getAttribute('srcset')) {
+                      images[index].setAttribute('srcset', fallbackImageUrl);
+                    }
+                    if (images[index].getAttribute('data-src')) {
+                      images[index].setAttribute('data-src', fallbackImageUrl);
+                    }
+                  }
+                  else{
+                    images[index].src = imageUrl[index];
+                    if (images[index].getAttribute('srcset')) {
+                      images[index].setAttribute('srcset',  imageUrl[index]);
+                    }
+                    if (images[index].getAttribute('data-src')) {
+                      images[index].setAttribute('data-src', imageUrl[index]);
+                    }
+                  }
+                  chrome.runtime.sendMessage({msg: 'send'}, function(){
+                    chrome.storage.local.set({ 'detections': numDetections});
+                  });
+                });
+              }       
+             
+            })
+          } 
+        else{
+          chrome.runtime.sendMessage({msg: 'imageClassify', index: i, url: imageSrc}, function({data,index}){
+            console.log("URL["+numDetections+"]: " + imageUrl[index] + " Class: " + data.Prediction[0].class);
+            if(sexyOption){
               if (data.Prediction[0].class === "nude" || data.Prediction[0].class === "sexy") {
                 numDetections+=1;
                 chrome.storage.local.set({'detections': numDetections});
@@ -75,53 +102,49 @@ function getNewImages() {
                 if (images[index].getAttribute('data-src')) {
                   images[index].setAttribute('data-src', fallbackImageUrl);
                 }
-                chrome.runtime.sendMessage({msg: 'imageCensor', index: i, url: imageSrc}, function({data,index}){
+              }
+              else{
+                images[index].src = imageUrl[index];
+                if (images[index].getAttribute('srcset')) {
+                  images[index].setAttribute('srcset',  imageUrl[index]);
+                }
+                if (images[index].getAttribute('data-src')) {
+                  images[index].setAttribute('data-src', imageUrl[index]);
+                }
+              }
+            }
+              else{
+                if (data.Prediction[0].class === "nude") {
+                  numDetections+=1;
+                  chrome.storage.local.set({'detections': numDetections});
+                  let fallbackImageUrl = "https://i.ibb.co/h2Fv4q0/Desktop-1.jpg";
+                  images[index].src = fallbackImageUrl;
                   if (images[index].getAttribute('srcset')) {
-                    images[index].setAttribute('srcset', data.Prediction[0].url);
+                    images[index].setAttribute('srcset', fallbackImageUrl);
                   }
                   if (images[index].getAttribute('data-src')) {
-                    images[index].setAttribute('data-src', data.Prediction[0].url);
+                    images[index].setAttribute('data-src', fallbackImageUrl);
                   }
-                })
-              }
-              else{
-                images[index].src = imageUrl[index];
-                if (images[index].getAttribute('srcset')) {
-                  images[index].setAttribute('srcset',  imageUrl[index]);
                 }
-                if (images[index].getAttribute('data-src')) {
-                  images[index].setAttribute('data-src', imageUrl[index]);
-                }
-              }
-            }
-      
-            else{
-              if (data.Prediction[0].class === "nude") {
-                numDetections+=1;
-                chrome.storage.local.set({'detections': numDetections});
-                let fallbackImageUrl = "https://i.ibb.co/h2Fv4q0/Desktop-1.jpg";
-                images[index].src = fallbackImageUrl;
-                if (images[index].getAttribute('srcset')) {
-                  images[index].setAttribute('srcset', fallbackImageUrl);
-                }
-                if (images[index].getAttribute('data-src')) {
-                  images[index].setAttribute('data-src', fallbackImageUrl);
+                else{
+                  images[index].src = imageUrl[index];
+                  if (images[index].getAttribute('srcset')) {
+                    images[index].setAttribute('srcset',  imageUrl[index]);
+                  }
+                  if (images[index].getAttribute('data-src')) {
+                    images[index].setAttribute('data-src', imageUrl[index]);
+                  }
                 }
               }
-              else{
-                images[index].src = imageUrl[index];
-                if (images[index].getAttribute('srcset')) {
-                  images[index].setAttribute('srcset',  imageUrl[index]);
-                }
-                if (images[index].getAttribute('data-src')) {
-                  images[index].setAttribute('data-src', imageUrl[index]);
-                }
-              }
-            }
-        });
-        chrome.runtime.sendMessage({msg: 'send'}, function({}){
-          chrome.storage.local.set({ 'detections': numDetections});
-        });
+              chrome.runtime.sendMessage({msg: 'send'}, function(){
+                chrome.storage.local.set({ 'detections': numDetections});
+                
+              });
+          });
+        }
+       
+        
+       
       }
     }
     setTimeout(getNewImages, 1000);

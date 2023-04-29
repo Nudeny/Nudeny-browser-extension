@@ -16,7 +16,16 @@ body {
   height: 460px;
 }
 
-body.disabled {
+
+#mainContent{
+  background: linear-gradient(180deg, #FFFFFF 0%, #7BFFE8 100%);
+  font-family: sans-serif;
+  height: 100%;
+  width: 300px;
+  height: 460px;
+}
+
+#mainContent.disabled{
   background: linear-gradient(180deg, #FFFFFF 0%, #FA8282 100%);
 }
 
@@ -125,8 +134,8 @@ body.disabled {
 #details-container h1 {
   font-family: 'Alata', sans-serif;
   font-size: 48px;
-  margin-bottom: 10px;
   color: #0E0E0E;
+  line-height: 50px;
 }
 
 #details-container p {
@@ -187,6 +196,10 @@ body.disabled {
 #settings-container p:last-of-type:before {
   left: -160px !important;
   top: -105px !important;
+}
+
+#imageCounts{
+  text-align: center;
 }
 
 .form-check.form-switch {
