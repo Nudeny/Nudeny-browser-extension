@@ -86,6 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     else{
       console.log("Not Equal");
+      passwordVal.classList.toggle("wrongpassword");
+      confirmpasswordVal.classList.toggle("wrongpassword");
       passwordVal.value = ''
       confirmpasswordVal.value = ''
     }
@@ -94,12 +96,13 @@ document.addEventListener('DOMContentLoaded', function () {
   unlockBtn.addEventListener('click', function(){
     chrome.storage.local.get('haveCredentials', function (result) {
       if(result.haveCredentials === lockPassword.value){
-        confirmAccount.style.display = "none"
+          confirmAccount.style.display = "none"
           loginPage.style.display = "none"
           mainContent.style.display = "block"
       }
       else{
         console.log(lockPassword.value)
+        lockPassword.classList.toggle("wrongpassword");
         lockPassword.value = '';
       }
     });
@@ -108,8 +111,15 @@ document.addEventListener('DOMContentLoaded', function () {
   chrome.storage.local.get('haveCredentials', function (result) {
     if(result.haveCredentials !== ''){
       createAccount.style.display = "none"
+      if(unlockBtn.disabled && lockPassword.disabled ){
+        unlockBtn.disabled = false;
+        lockPassword.disabled = false;
+      }
+      
     }
     else{
+      unlockBtn.disabled = true;
+      lockPassword.disabled = true;
       createAccount.style.display = "block"
     }
   });
