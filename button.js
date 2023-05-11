@@ -82,7 +82,8 @@ document.addEventListener('DOMContentLoaded', function () {
       loginPage.style.display = "flex"
       createAccount.style.display = "none"
       chrome.storage.local.set({ 'haveCredentials':passwordVal.value});
-      
+      unlockBtn.disabled = false;
+        lockPassword.disabled = false;
     }
     else{
       console.log("Not Equal");
