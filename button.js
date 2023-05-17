@@ -18,6 +18,7 @@ let isActive= false;
 // Retrieve button state from local storage
 chrome.storage.local.get('isActive', function (result) {
   isActive = result.isActive
+
   if (result.isActive === true) {
     button.classList.toggle('click-button-animation');
     button.parentNode.classList.toggle('click-inner-animation');
@@ -129,12 +130,19 @@ document.addEventListener('DOMContentLoaded', function () {
   button.addEventListener('click', (event) => {
     let clickedButton;
     isActive = !isActive;
-    if(isActive){
-      chrome.tabs.query({}, function(tabs) {
-        tabs.forEach(function(tab) {
-          chrome.tabs.reload(tab.id, { bypassCache: true });
-        });
+    
+    chrome.tabs.query({}, function(tabs) {
+      tabs.forEach(function(tab) {
+        chrome.tabs.reload(tab.id, { bypassCache: true });
       });
+    });
+    if(isActive){
+      chrome.storage.local.set({ 'detections':0});
+      
+    }
+    if(!isActive){
+      censorToggle.checked = false;
+      sexyToggle.checked = false;
       chrome.storage.local.set({ 'detections':0});
     }
     chrome.storage.local.set({ 'isActive': isActive });

@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name" : "Nudeny",
     "description" : "Nudity image detection and classification",
-    "version" : "1.0",
+    "version" : "1.1",
     "action":{
         "default_icon":{ 
           "16": "icon16.png",
@@ -13,8 +13,7 @@
         "default_title": "Nudeny",
         "default_popup" : "popup.html"
     },
-    "permissions":["storage", "activeTab", "scripting","tabs"],
-    "host_permissions": ["<all_urls>"],
+    "permissions":["storage","tabs"],
     "background": {
         "service_worker": "background.js"
     },

@@ -16,10 +16,11 @@ chrome.storage.local.get('isSexyToggled', function (result) {
 chrome.storage.local.get('isActive', function (result) {
   console.log(result.isActive)
   isActive = result.isActive;
-  getNewImages();
+  if(isActive){
+    getNewImages();
+  }
+ 
 });
-
-
 
 function getNewImages() {
   let images = document.querySelectorAll('img:not([data-loaded])');
